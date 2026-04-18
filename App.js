@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import Home from './src/screens/Home';
 import Login from './src/screens/Login';
+import AgregarReporte from './src/screens/AgregarReporte';
 
 export default function App() {
 
@@ -15,6 +16,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="AgregarReporte" component={AgregarReporte} />
       </Stack.Navigator>
     )
   }

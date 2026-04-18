@@ -1,4 +1,4 @@
-import { Text, StyleSheet, View, FlatList, Image, TouchableOpacity, SafeAreaView } from 'react-native'
+import { Text, StyleSheet, View, FlatList, Image, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { REPORTES } from '../data/reportes.js'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -8,7 +8,7 @@ const mostrarItem = ({ item }) => {
     return (
         <View style={styles.tarjeta}>
             <View style={styles.tarjetaHeader}>
-                
+
                 <View style={[styles.estado]}>
                     <Text style={[styles.estadoText, { color: item.textColor }]}>{item.status}</Text>
                 </View>
@@ -23,7 +23,7 @@ const mostrarItem = ({ item }) => {
                     <MaterialCommunityIcons name="door" size={16} />
                     <Text style={styles.infoTexto}>{item.tower} - {item.classroom}</Text>
                 </View>
-                
+
                 <View style={styles.infoRow}>
                     <MaterialCommunityIcons name="wrench-outline" size={16} />
                     <Text style={styles.infoTexto}>{item.category}</Text>
@@ -34,8 +34,7 @@ const mostrarItem = ({ item }) => {
 };
 
 
-
-export default function Home() {
+export default function Home(props) {
     const [filtroActivo, setFiltroActivo] = useState('Todos');
     const filtros = ['Todos', 'Pendientes', 'En Proceso', 'Solucionados'];
 
@@ -48,16 +47,15 @@ export default function Home() {
     });
 
     return (
-        <SafeAreaView style={styles.body}>
+        <View style={styles.body}>
             <View style={styles.topBar}>
-                <Ionicons name="menu" size={28} color="#C8102E" />
                 <Text style={styles.topBarTitulo}>UniReport</Text>
                 <Image source={require('../assets/logo.png')} style={styles.logo} />
             </View>
 
             <View style={styles.cabezeraContenedor}>
                 <Text style={styles.titulo}>Mis Reportes</Text>
-                <Text style={styles.subTitulo}>Gestiona y monitorea las incidencias registradas en UTP</Text>
+                <Text style={styles.subTitulo}>Gestiona y monitorea las incidencias registradas en UTP sede LN</Text>
             </View>
 
             <View style={styles.filtrosContenedor}>
@@ -72,19 +70,17 @@ export default function Home() {
                 ))}
             </View>
 
-            {/* Cards */}
-            <FlatList
+            <FlatList // renderiza los datos
                 data={reportesFiltrados}
                 renderItem={mostrarItem}
                 keyExtractor={item => item.id}
-                // ...
             />
 
-
-            <TouchableOpacity style={styles.agregar}>
+            {/* Boton agreggar */}
+            <TouchableOpacity style={styles.agregar} onPress={() => props.navigation.navigate('AgregarReporte')}>
                 <Ionicons name="add" size={30} color="white" />
             </TouchableOpacity>
-        </SafeAreaView>
+        </View>
     )
 }
 
@@ -99,7 +95,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 20,
-        paddingTop: 15,
+        paddingTop: 20,
     },
     topBarTitulo: {
         fontSize: 25,
@@ -122,9 +118,7 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     subTitulo: {
-        fontSize: 16,
-        color: '#6c757d',
-        lineHeight: 22,
+        fontSize: 18,
     },
 
     // filtrar
@@ -146,7 +140,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#C8102E',
     },
     txtFiltro: {
-        color: '#4A4A4A',
         fontWeight: '600',
     },
     txtFiltroActivo: {
