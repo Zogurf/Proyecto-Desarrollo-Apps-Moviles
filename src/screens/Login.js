@@ -29,9 +29,9 @@ export default function Login(props) {
 
     return (
         <View style={styles.body}>
-            <View style={styles.cabezera_contenedor}>
+            <View style={styles.cabezeraContenedor}>
                 <Image source={require('../assets/logo.png')} style={styles.logo} />
-                <Text style={styles.cabezera_titulo}>UNIreport</Text>
+                <Text style={styles.cabezeraTitulo}>UNIreport</Text>
             </View>
 
             <View style={styles.contenedor}>
@@ -51,10 +51,10 @@ export default function Login(props) {
                         opacity: pressed ? 0.5 : 1
                     }]}>
 
-                    <Text style={styles.boton_texto}>Login</Text>
+                    <Text style={styles.botonText}>Login</Text>
                 </Pressable>
 
-                <TouchableOpacity style={styles.boton_registro}>
+                <TouchableOpacity style={styles.botonRegistro}>
                     <Text style={{ color: '#C8102E' }}>No tienes una cuenta? Registrate</Text>
                 </TouchableOpacity>
 
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     body: {
         flex: 1
     },
-    cabezera_contenedor: {
+    cabezeraContenedor: {
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 50
     },
-    cabezera_titulo: {
+    cabezeraTitulo: {
         fontSize: 30,
         color: '#C8102E',
         marginTop: 10
@@ -112,11 +112,11 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         alignItems: 'center'
     },
-    boton_texto: {
+    botonText: {
         color: '#ffffff',
         fontSize: 20
     },
-    boton_registro: {
+    botonRegistro: {
         marginTop: 20,
 
     }
