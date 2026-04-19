@@ -1,9 +1,9 @@
-import { Text, StyleSheet, View, Image, TextInput, Alert, TouchableOpacity } from 'react-native'
+import { Text, StyleSheet, View, Image, TextInput, Alert, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-export default function AgregarReporte() {
+export default function AgregarReporte(props) {
     const [ambiente, setAmbiente] = useState('');
     const [piso, setPiso] = useState('');
     const [descripcion, setDescripcion] = useState('');
@@ -21,16 +21,28 @@ export default function AgregarReporte() {
             </View>
 
             <View style={styles.formulario}>
+
+                <Text style={styles.label}>Piso</Text>
+                <TextInput style={styles.input} placeholder="Ingrese el piso" />
+
                 <Text style={styles.label}>Ambiente</Text>
                 <TextInput style={styles.input} placeholder="Ingresa el ambiente" />
 
-                <Text style={styles.label}>Piso</Text>
-                <TextInput style={styles.input} placeholder="Ingresa el piso" />
+                <Text style={styles.label}>Categoria</Text>
+                <TextInput style={styles.input} placeholder=" -- " />
 
                 <Text style={styles.label}>Descripción</Text>
                 <TextInput style={styles.input} placeholder="Describe la incidencia" />
 
-                <Text style={styles.label}>Agrega una imagen</Text>
+                <Text style={styles.label}>Agrega una imagen (si es necesario) </Text>
+
+                <Pressable onPress={() => props.navigation.navigate('Home')} style={({ pressed }) => [styles.boton, {
+                        transform: [{ scale: pressed ? 0.85 : 1 }],
+                        opacity: pressed ? 0.5 : 1
+                    }]}>
+
+                    <Text style={styles.botonText}>AgregarReporte</Text>
+                </Pressable>
 
             </View>
         </View>
@@ -42,7 +54,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 
-    // topBar ctrl c ctrl v
+    // topBar
     topBar: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -95,7 +107,19 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: 'rgb(167, 167, 167)',
         borderRadius: 50,
-        marginBottom: 20,
+        marginBottom: 25,
         padding: 10,
+    },
+    boton: {
+        backgroundColor: '#C8102E',
+        width: '50%',
+        padding: 10,
+        borderRadius: 50,
+        alignItems: 'center',
+        marginTop: 100
+    },
+    botonText: {
+        color: '#ffffff',
+        fontSize: 20
     },
 })
