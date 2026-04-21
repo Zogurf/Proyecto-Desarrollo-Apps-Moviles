@@ -6,6 +6,7 @@ import 'react-native-gesture-handler';
 import Home from './src/screens/Home';
 import Login from './src/screens/Login';
 import AgregarReporte from './src/screens/AgregarReporte';
+import Registro from './src/screens/Registro'
 
 export default function App() {
 
@@ -17,6 +18,7 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="AgregarReporte" component={AgregarReporte} />
+        <Stack.Screen name="Registro" component={Registro} />
       </Stack.Navigator>
     )
   }

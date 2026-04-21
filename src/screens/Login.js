@@ -54,8 +54,8 @@ export default function Login(props) {
                     <Text style={styles.botonText}>Login</Text>
                 </Pressable>
 
-                <TouchableOpacity style={styles.botonRegistro}>
-                    <Text style={{ color: '#C8102E' }}>No tienes una cuenta? Registrate</Text>
+                <TouchableOpacity style={styles.botonRegistro} onPress={() => props.navigation.navigate('Registro')}>
+                    <Text style={styles.registroText}>No tienes una cuenta? Registrate </Text>
                 </TouchableOpacity>
 
             </View>
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     body: {
         flex: 1
     },
+
     cabezeraContenedor: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -118,6 +119,8 @@ const styles = StyleSheet.create({
     },
     botonRegistro: {
         marginTop: 20,
-
+    },
+    registroText: {
+        color: '#C8102E'
     }
 })
