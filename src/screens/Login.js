@@ -31,7 +31,7 @@ export default function Login(props) {
         <View style={styles.body}>
             <View style={styles.cabezeraContenedor}>
                 <Image source={require('../assets/logo.png')} style={styles.logo} />
-                <Text style={styles.cabezeraTitulo}>UNIreport</Text>
+                <Text style={styles.cabezeraTitulo}>UTPreport</Text>
             </View>
 
             <View style={styles.contenedor}>

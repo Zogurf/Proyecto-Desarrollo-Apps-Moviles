@@ -1,4 +1,4 @@
-# proyecto_UNIreport
+# proyecto_UTPreport
 
 App movil desarrollada para registrar y dar seguimiento a incidencias dentro de la UTP (sede Lima Norte). La app permite que los estudiantes se autentiquen con su correo institucional, consulten el estado de sus reportes y gestionen nuevas incidencias de manera organizada.
 
@@ -16,6 +16,7 @@ App movil desarrollada para registrar y dar seguimiento a incidencias dentro de 
 - React Native
 - Expo
 - React Navigation
+- Elemento Dropdown
 
 ### Backend
 - Firebase

@@ -41,7 +41,6 @@ export default function Home(props) {
     const reportesFiltrados = REPORTES.filter(reporte => {
         if (filtroActivo === 'Todos') return true;
 
-        // recursividad XD?
         const statusBusqueda = filtroActivo === 'Pendientes' ? 'Pendiente' : filtroActivo === 'En Proceso' ? 'En Proceso' : 'Solucionado';
         return reporte.status === statusBusqueda;
     });
@@ -49,7 +48,7 @@ export default function Home(props) {
     return (
         <View style={styles.body}>
             <View style={styles.topBar}>
-                <Text style={styles.topBarTitulo}>UniReport</Text>
+                <Text style={styles.topBarTitulo}>UTPreport</Text>
                 <Image source={require('../assets/logo.png')} style={styles.logo} />
             </View>
 

@@ -18,7 +18,7 @@ export const REPORTES = [
         date: '31-03-2026',
         tower: 'Torre B',
         classroom: 'Aula B1102',
-        category: 'Equipamiento',
+        category: 'Equipos',
     },
 
     {
@@ -29,6 +29,6 @@ export const REPORTES = [
         date: '08-04-2026',
         tower: 'Torre A',
         classroom: 'Aula A0305',
-        category: 'Mantenimiento',
+        category: 'Servicios',
     }
 ];

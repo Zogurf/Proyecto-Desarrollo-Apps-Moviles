@@ -8,21 +8,26 @@ const auth = getAuth(appFirebase);
 export default function Registro(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [password2, setPassword2] = useState('');
 
     const registrar = async () => {
+        if (password !== password2) {
+            Alert.alert('Error', 'Las contraseñas no coinciden');
+            return;
+        }
         if (!email.trim() || !password.trim()) {
-            Alert.alert('Ingresa un email y contraseña para registrarte');
+            Alert.alert('Error', 'Ingresa un email y contraseña para registrarte');
             return;
         }
 
         if (!email.trim().toLowerCase().endsWith('@utp.edu.pe')) {
-            Alert.alert('Por favor usa el correo institucional para registrarte');
+            Alert.alert('Error', 'Por favor usa el correo institucional para registrarte');
             return;
         }
 
         try {
             await createUserWithEmailAndPassword(auth, email, password);
-            Alert.alert('Registro exitoso', 'Bienvenido a UNIreport');
+            Alert.alert('Registro exitoso', 'Bienvenido a UTPreport');
             props.navigation.navigate('Home');
 
         } catch (error) {
@@ -41,7 +46,7 @@ export default function Registro(props) {
         <View style={styles.body}>
             <View style={styles.cabezeraContenedor}>
                 <Image source={require('../assets/logo.png')} style={styles.logo} />
-                <Text style={styles.cabezeraTitulo}>UNIreport</Text>
+                <Text style={styles.cabezeraTitulo}>UTPreport</Text>
             </View>
 
             <View style={styles.contenedor}>
@@ -49,6 +54,8 @@ export default function Registro(props) {
 
                 <TextInput placeholder="Ingrese su email UTP" style={styles.input} onChangeText={(text) => setEmail(text)} />
                 <TextInput placeholder="Ingrese su contraseña" style={styles.input} secureTextEntry={true} onChangeText={(text) => setPassword(text)} />
+                <TextInput placeholder="Confirme su contraseña" style={styles.input} secureTextEntry={true} onChangeText={(text) => setPassword2(text)} />
+                
 
                 <Pressable onPress={registrar}
                     style={({ pressed }) => [styles.boton, {
