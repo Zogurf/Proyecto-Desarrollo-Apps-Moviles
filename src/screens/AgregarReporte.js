@@ -1,4 +1,4 @@
-import { Text, StyleSheet, View, Image, TextInput, Alert, Pressable } from 'react-native'
+import { Text, StyleSheet, View, Image, TextInput, Alert, Pressable, ScrollView  } from 'react-native'
 import React, { useState } from 'react'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -18,7 +18,7 @@ export default function AgregarReporte(props) {
 
 
     return (
-        <View style={styles.body}>
+        <ScrollView contentContainerStyle={styles.body}>
             <View style={styles.topBar}>
                 <Text style={styles.topBarTitulo}>UTPreport</Text>
                 <Image source={require('../assets/logo.png')} style={styles.logo} />
@@ -58,17 +58,17 @@ export default function AgregarReporte(props) {
                     opacity: pressed ? 0.5 : 1
                 }]}>
 
-                    <Text style={styles.botonText}>AgregarReporte</Text>
+                    <Text style={styles.botonText}>Agregar Reporte</Text>
                 </Pressable>
 
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     body: {
-        flex: 1,
+        paddingBottom: 30,
     },
 
     // topBar
@@ -128,12 +128,12 @@ const styles = StyleSheet.create({
     },
     boton: {
         backgroundColor: '#C8102E',
-        width: '50%',
+        width: '75%',
         padding: 10,
         borderRadius: 50,
         alignItems: 'center',
         alignSelf: 'center',
-        marginTop: 100
+        marginTop: 20
     },
     botonText: {
         color: '#ffffff',
@@ -141,14 +141,6 @@ const styles = StyleSheet.create({
     },
 
     // dropdown 
-    opciones: {
-        backgroundColor: '#edf2fc',
-        borderWidth: 2,
-        borderColor: 'rgb(167, 167, 167)',
-        borderRadius: 50,
-        marginBottom: 25,
-        padding: 10,
-    },
     placeholderStyle: {
         backgroundColor: '#edf2fc',
         borderWidth: 2,
