@@ -7,7 +7,7 @@ export const REPORTES = [
         date: '12-04-2026',
         tower: 'Torre A',
         classroom: 'Aula A0402',
-        category: 'Infraestructura',
+        category: 'Instalacion',
     },
 
     {

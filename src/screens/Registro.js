@@ -6,6 +6,8 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 const auth = getAuth(appFirebase);
 
 export default function Registro(props) {
+    const [nombre, setNombre] = useState('');
+    const [apellido, setApellido] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
@@ -27,8 +29,8 @@ export default function Registro(props) {
 
         try {
             await createUserWithEmailAndPassword(auth, email, password);
-            Alert.alert('Registro exitoso', 'Bienvenido a UTPreport');
-            props.navigation.navigate('Home');
+            Alert.alert('Bienvenido(a)', 'Bienvenido a UTPreport');
+            props.navigation.navigate('Login');
 
         } catch (error) {
             console.error('Error:', error);
@@ -52,6 +54,8 @@ export default function Registro(props) {
             <View style={styles.contenedor}>
                 <Text style={styles.titulo}>Crear Cuenta</Text>
 
+                <TextInput placeholder="Ingrese sus nombres" style={styles.input} onChangeText={(text) => setNombre(text)} />
+                <TextInput placeholder="Ingrese sus apellidos" style={styles.input} onChangeText={(text) => setApellido(text)} />
                 <TextInput placeholder="Ingrese su email UTP" style={styles.input} onChangeText={(text) => setEmail(text)} />
                 <TextInput placeholder="Ingrese su contraseña" style={styles.input} secureTextEntry={true} onChangeText={(text) => setPassword(text)} />
                 <TextInput placeholder="Confirme su contraseña" style={styles.input} secureTextEntry={true} onChangeText={(text) => setPassword2(text)} />
@@ -66,7 +70,7 @@ export default function Registro(props) {
                     <Text style={styles.botonText}>Registrar</Text>
                 </Pressable>
 
-                <TouchableOpacity style={styles.botonRegistro} onPress={() => props.navigation.navigate('Login')} >
+                <TouchableOpacity style={styles.botonRegistro} onPress={() => props.navigation.navigate('Login')}>
                     <Text style={styles.registroText}>Ya tienes una cuenta?</Text>
                 </TouchableOpacity>
 

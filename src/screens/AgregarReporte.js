@@ -30,6 +30,8 @@ export default function AgregarReporte(props) {
             </View>
 
             <View style={styles.formulario}>
+                <Text style={styles.label}>Torre</Text>
+                <TextInput style={styles.input} placeholder="Ingrese tu Torre" />
 
                 <Text style={styles.label}>Piso</Text>
                 <TextInput style={styles.input} placeholder="Ingrese el piso" />
@@ -155,4 +157,12 @@ const styles = StyleSheet.create({
         marginBottom: 25,
         padding: 10,
     },
+    selectedTextStyle: {
+        backgroundColor: '#edf2fc',
+        borderWidth: 2,
+        borderColor: 'rgb(167, 167, 167)',
+        padding: 10,
+        borderRadius: 50,
+        marginBottom: 20,
+    }
 })

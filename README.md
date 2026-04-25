@@ -1,6 +1,8 @@
-# proyecto_UTPreport
+# Proyecto UTPreport
 
-App movil desarrollada para registrar y dar seguimiento a incidencias dentro de la UTP (sede Lima Norte). La app permite que los estudiantes se autentiquen con su correo institucional, consulten el estado de sus reportes y gestionen nuevas incidencias de manera organizada.
+## Descripcion
+
+**UTPreport** es una aplicacion movil desarrollada para registrar y dar seguimiento a incidencias dentro de la UTP (sede Lima Norte). La app permite que los estudiantes se autentiquen con su correo institucional, consulten el estado de sus reportes y gestionen nuevas incidencias de manera organizada.
 
 ## Funcionalidades principales
 
@@ -15,8 +17,35 @@ App movil desarrollada para registrar y dar seguimiento a incidencias dentro de 
 ### Frontend
 - React Native
 - Expo
-- React Navigation
-- Elemento Dropdown
+- Componentes React Navigation
+- Componentes Dropdown
 
 ### Backend
 - Firebase
+
+## Instalacion y Uso
+
+1.  Instalar dependencias
+```cmd
+npm install
+```
+2. Ejecutar con Expo
+```cmd
+npx expo start
+```
+
+## Estructura de Carpetas
+
+```cmd
+├── src/
+│   ├── assets/          # Imagenes
+│   ├── screens/         # Pantallas de la app
+│   ├── data/            # Modelos de datos
+├── App.js               # Punto de entrada
+└── app.json             # Configuración de Expo
+```
+
+## Autor
+
+Jair Villalta 
+- Github: [@Zogurf](https://github.com)
