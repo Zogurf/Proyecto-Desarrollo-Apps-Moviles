@@ -41,11 +41,10 @@ npx expo start
 │   ├── assets/          # Imagenes
 │   ├── screens/         # Pantallas de la app
 │   ├── data/            # Modelos de datos
-├── App.js               # Punto de entrada
-└── app.json             # Configuración de Expo
+├── App.js               # Raiz del proyecto
 ```
 
 ## Autor
 
 Jair Villalta 
-- Github: [@Zogurf](https://github.com)
+- Github: [@Zogurf](https://github.com/Zogurf)
