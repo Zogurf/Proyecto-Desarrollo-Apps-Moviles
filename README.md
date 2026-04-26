@@ -17,19 +17,26 @@
 ### Frontend
 - React Native
 - Expo
-- Componentes React Navigation
-- Componentes Dropdown
+- React Navigation
+- Dropdown
+- FlatList
+- Ionicons
+- MaterialCommunityIcons
 
 ### Backend
 - Firebase
+- Javascript
 
 ## Instalacion y Uso
-
 1.  Instalar dependencias
+```cmd
+git clone https://github.com/Zogurf/Proyecto-Desarrollo-Apps-Moviles.git
+```
+2.  Instalar dependencias
 ```cmd
 npm install
 ```
-2. Ejecutar con Expo
+3. Ejecutar con Expo
 ```cmd
 npx expo start
 ```
@@ -38,10 +45,18 @@ npx expo start
 
 ```cmd
 ├── src/
-│   ├── assets/          # Imagenes
-│   ├── screens/         # Pantallas de la app
-│   ├── data/            # Modelos de datos
-├── App.js               # Raiz del proyecto
+│   ├── assets/                # Recursos visuales
+│   │   └── logo.png
+│   ├── data/                  # Datos y reportes
+│   │   └── reportes.js
+│   └── screens/               # Pantallas de la aplicación
+│       ├── AgregarReporte.js
+│       ├── Home.js
+│       ├── Login.js
+│       └── Registro.js
+├── App.js                     # Raíz principal de la app
+├── app.json                   # Configuración del proyecto
+└── credenciales.js            # Conexion con Firebase
 ```
 
 ## Autor
