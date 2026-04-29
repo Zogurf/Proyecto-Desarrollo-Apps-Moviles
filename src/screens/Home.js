@@ -2,7 +2,8 @@ import { Text, StyleSheet, View, FlatList, Image, TouchableOpacity } from 'react
 import React, { useState } from 'react'
 import { REPORTES } from '../data/reportes.js'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-
+import TopBar from '../components/Topbar.js';
+import ScreenHeader from '../components/ScreenHeader';
 
 const mostrarItem = ({ item }) => {
     return (
@@ -47,15 +48,9 @@ export default function Home(props) {
 
     return (
         <View style={styles.body}>
-            <View style={styles.topBar}>
-                <Text style={styles.topBarTitulo}>UTPreport</Text>
-                <Image source={require('../assets/logo.png')} style={styles.logo} />
-            </View>
+            <TopBar />
 
-            <View style={styles.cabezeraContenedor}>
-                <Text style={styles.titulo}>Mis Reportes</Text>
-                <Text style={styles.subTitulo}>Gestiona y monitorea las incidencias registradas en UTP sede LN</Text>
-            </View>
+            <ScreenHeader titulo="Mis Reportes" subTitulo="Gestiona y monitorea las incidencias registradas en UTP sede LN" />
 
             <View style={styles.filtrosContenedor}>
                 {filtros.map((filtro) => (
@@ -86,38 +81,6 @@ export default function Home(props) {
 const styles = StyleSheet.create({
     body: {
         flex: 1,
-    },
-
-    // topBar
-    topBar: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingTop: 20,
-    },
-    topBarTitulo: {
-        fontSize: 25,
-        color: '#C8102E',
-    },
-    logo: {
-        width: 50,
-        height: 50,
-        borderRadius: 50
-    },
-
-    // header
-    cabezeraContenedor: {
-        paddingHorizontal: 20,
-        marginTop: 25,
-        marginBottom: 20,
-    },
-    titulo: {
-        fontSize: 32,
-        marginBottom: 8,
-    },
-    subTitulo: {
-        fontSize: 18,
     },
 
     // filtrar

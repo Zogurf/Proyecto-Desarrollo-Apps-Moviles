@@ -2,6 +2,8 @@ import { Text, StyleSheet, View, Image, TextInput, Alert, Pressable, ScrollView 
 import React, { useState } from 'react'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Dropdown } from 'react-native-element-dropdown';
+import TopBar from '../components/Topbar';
+import ScreenHeader from '../components/ScreenHeader';
 
 export default function AgregarReporte(props) {
     const [ambiente, setAmbiente] = useState('');
@@ -15,19 +17,11 @@ export default function AgregarReporte(props) {
     ];
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
 
-
-
     return (
         <ScrollView contentContainerStyle={styles.body}>
-            <View style={styles.topBar}>
-                <Text style={styles.topBarTitulo}>UTPreport</Text>
-                <Image source={require('../assets/logo.png')} style={styles.logo} />
-            </View>
+            <TopBar />
 
-            <View style={styles.cabezeraContenedor}>
-                <Text style={styles.titulo}>Agregar Reporte</Text>
-                <Text style={styles.subTitulo}>Registra una nueva incidencia en tu ambiente</Text>
-            </View>
+            <ScreenHeader titulo="Agregar Reporte" subTitulo="Registra una nueva incidencia en tu ambiente" />
 
             <View style={styles.formulario}>
                 <Text style={styles.label}>Torre</Text>
@@ -69,38 +63,6 @@ export default function AgregarReporte(props) {
 const styles = StyleSheet.create({
     body: {
         paddingBottom: 30,
-    },
-
-    // topBar
-    topBar: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingTop: 20,
-    },
-    topBarTitulo: {
-        fontSize: 25,
-        color: '#C8102E',
-    },
-    logo: {
-        width: 50,
-        height: 50,
-        borderRadius: 50
-    },
-
-    // header
-    cabezeraContenedor: {
-        paddingHorizontal: 20,
-        marginTop: 25,
-        marginBottom: 20,
-    },
-    titulo: {
-        fontSize: 32,
-        marginBottom: 8,
-    },
-    subTitulo: {
-        fontSize: 18,
     },
 
     // formulario

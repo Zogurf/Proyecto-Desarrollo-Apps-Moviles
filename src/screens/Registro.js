@@ -1,7 +1,8 @@
 import { Text, StyleSheet, View, Image, TextInput, Pressable, TouchableOpacity, Alert } from 'react-native';
 import React, { useState } from 'react';
-import appFirebase from '../../credenciales.js';
+import appFirebase from '../config/Firebase.js';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import AuthHeader from '../components/AuthHeader.js';
 
 const auth = getAuth(appFirebase);
 
@@ -46,10 +47,7 @@ export default function Registro(props) {
 
     return (
         <View style={styles.body}>
-            <View style={styles.cabezeraContenedor}>
-                <Image source={require('../assets/logo.png')} style={styles.logo} />
-                <Text style={styles.cabezeraTitulo}>UTPreport</Text>
-            </View>
+            <AuthHeader />
 
             <View style={styles.contenedor}>
                 <Text style={styles.titulo}>Crear Cuenta</Text>
@@ -83,11 +81,6 @@ const styles = StyleSheet.create({
     body: {
         flex: 1
     },
-    cabezeraContenedor: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 20
-    },
     contenedor: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -99,16 +92,7 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
         paddingTop: 20
     },
-    logo: {
-        width: 100,
-        height: 100,
-        borderRadius: 50
-    },
-    cabezeraTitulo: {
-        fontSize: 30,
-        color: '#C8102E',
-        marginTop: 10
-    },
+   
     titulo: {
         fontSize: 30,
         marginVertical: 20

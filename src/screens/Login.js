@@ -1,7 +1,8 @@
 import { Text, StyleSheet, View, Image, TextInput, Pressable, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
-import appFirebase from '../../credenciales.js'
+import appFirebase from '../config/Firebase'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import AuthHeader from '../components/AuthHeader.js';
 
 // Inicializar la funcion Auth de firebase
 const auth = getAuth(appFirebase)
@@ -29,10 +30,7 @@ export default function Login(props) {
 
     return (
         <View style={styles.body}>
-            <View style={styles.cabezeraContenedor}>
-                <Image source={require('../assets/logo.png')} style={styles.logo} />
-                <Text style={styles.cabezeraTitulo}>UTPreport</Text>
-            </View>
+            <AuthHeader />
 
             <View style={styles.contenedor}>
                 <Text style={styles.titulo}>Iniciar Sesion</Text>
