@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
-import React from 'react'
+import { Text, View, Image } from 'react-native';
+import React from 'react';
+import { styles } from '../styles/components/AuthHeaderStyles';
 
 const AuthHeader = () => {
     return (
@@ -9,23 +10,5 @@ const AuthHeader = () => {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    cabezeraContenedor: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 20
-    },
-    logo: {
-        width: 100,
-        height: 100,
-        borderRadius: 50
-    },
-    cabezeraTitulo: {
-        fontSize: 30,
-        color: '#C8102E',
-        marginTop: 10
-    },
-})
 
 export default AuthHeader;

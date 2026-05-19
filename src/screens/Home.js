@@ -1,39 +1,11 @@
-import { Text, StyleSheet, View, FlatList, Image, TouchableOpacity } from 'react-native'
+import { Text, View, FlatList, Image, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { REPORTES } from '../data/reportes.js'
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import TopBar from '../components/Topbar.js';
 import ScreenHeader from '../components/ScreenHeader';
-
-const mostrarItem = ({ item }) => {
-    return (
-        <View style={styles.tarjeta}>
-            <View style={styles.tarjetaHeader}>
-
-                <View style={[styles.estado]}>
-                    <Text style={[styles.estadoText, { color: item.textColor }]}>{item.status}</Text>
-                </View>
-
-                <Text>{item.date}</Text>
-            </View>
-
-            <Text style={styles.reporteTitulo}>{item.title}</Text>
-
-            <View style={styles.tarjetaFooter}>
-                <View style={styles.infoRow}>
-                    <MaterialCommunityIcons name="door" size={16} />
-                    <Text style={styles.infoTexto}>{item.tower} - {item.classroom}</Text>
-                </View>
-
-                <View style={styles.infoRow}>
-                    <MaterialCommunityIcons name="wrench-outline" size={16} />
-                    <Text style={styles.infoTexto}>{item.category}</Text>
-                </View>
-            </View>
-        </View>
-    );
-};
-
+import ReporteItem from '../components/ReporteItem';
+import { styles } from '../styles/screens/HomeStyles';
 
 export default function Home(props) {
     const [filtroActivo, setFiltroActivo] = useState('Todos');
@@ -66,7 +38,7 @@ export default function Home(props) {
 
             <FlatList // renderiza los datos
                 data={reportesFiltrados}
-                renderItem={mostrarItem}
+                renderItem={({ item }) => <ReporteItem item={item} />}
                 keyExtractor={item => item.id}
             />
 
@@ -78,83 +50,3 @@ export default function Home(props) {
     )
 }
 
-const styles = StyleSheet.create({
-    body: {
-        flex: 1,
-    },
-
-    // filtrar
-    filtrosContenedor: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        paddingHorizontal: 20,
-        marginBottom: 20,
-    },
-    btnFiltro: {
-        backgroundColor: '#E6E9EE',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 20,
-        marginRight: 10,
-        marginBottom: 10,
-    },
-    btnFiltroActivo: {
-        backgroundColor: '#C8102E',
-    },
-    txtFiltro: {
-        fontWeight: '600',
-    },
-    txtFiltroActivo: {
-        color: '#FFFFFF',
-    },
-
-    // Cards
-    tarjeta: {
-        backgroundColor: '#FFFFFF',
-        padding: 20,
-        marginBottom: 15,
-        marginHorizontal: 20,
-        borderRadius: 20,
-    },
-    tarjetaHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    estado: {
-        paddingHorizontal: 12,
-        paddingVertical: 4,
-        borderRadius: 15,
-    },
-    estadoText: {
-        fontSize: 11,
-        fontWeight: 'bold',
-    },
-    reporteTitulo: {
-        fontSize: 20,
-        marginBottom: 15,
-    },
-    tarjetaFooter: {
-        flexDirection: 'row',
-    },
-    infoRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginRight: 80,
-    },
-    infoTexto: {
-        fontSize: 14,
-        marginLeft: 5,
-    },
-
-    agregar: {
-        position: 'absolute',
-        right: 20,
-        bottom: 20,
-        backgroundColor: '#C8102E',
-        width: 65,
-        height: 65,
-        borderRadius: 18,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-});

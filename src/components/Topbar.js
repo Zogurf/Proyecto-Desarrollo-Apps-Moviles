@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { Text, View, Image } from 'react-native'
 import React from 'react'
+import { styles } from '../styles/components/TopbarStyles'
 
 const TopBar = () => {
     return (
@@ -9,24 +10,5 @@ const TopBar = () => {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    topBar: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingTop: 20,
-    },
-    titulo: {
-        fontSize: 25,
-        color: '#C8102E',
-    },
-    logo: {
-        width: 50,
-        height: 50,
-        borderRadius: 50
-    },
-})
 
 export default TopBar;

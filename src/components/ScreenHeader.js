@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import React from 'react'
+import { styles } from '../styles/components/ScreenHeaderStyles'
 
 const ScreenHeader = ({titulo, subTitulo}) => {
     return (
@@ -9,21 +10,5 @@ const ScreenHeader = ({titulo, subTitulo}) => {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    // header
-    cabezeraContenedor: {
-        paddingHorizontal: 20,
-        marginTop: 25,
-        marginBottom: 20,
-    },
-    titulo: {
-        fontSize: 32,
-        marginBottom: 8,
-    },
-    subTitulo: {
-        fontSize: 18,
-    },
-})
 
 export default ScreenHeader;
