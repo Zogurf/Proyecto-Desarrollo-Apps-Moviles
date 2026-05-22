@@ -4,8 +4,8 @@ import appFirebase from '../config/Firebase'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import AuthHeader from '../components/AuthHeader.js';
 import { styles } from '../styles/screens/LoginStyles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Inicializar la funcion Auth de firebase
 const auth = getAuth(appFirebase)
 
 export default function Login(props) {
@@ -19,7 +19,9 @@ export default function Login(props) {
         }
 
         try {
-            await signInWithEmailAndPassword(auth, email, password)
+            const userCredential = await signInWithEmailAndPassword(auth, email, password)
+            const user = userCredential.user
+            await AsyncStorage.setItem('userToken', user.uid)
             Alert.alert('Iniciando sesion', 'Bienvenido(a)')
             props.navigation.navigate('Home')
 
@@ -61,4 +63,3 @@ export default function Login(props) {
         </View>
     )
 }
-

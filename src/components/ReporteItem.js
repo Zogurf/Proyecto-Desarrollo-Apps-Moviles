@@ -18,7 +18,7 @@ const ReporteItem = ({ item }) => {
             <View style={styles.tarjetaFooter}>
                 <View style={styles.infoRow}>
                     <MaterialCommunityIcons name="door" size={16} />
-                    <Text style={styles.infoTexto}>{item.tower} - {item.classroom}</Text>
+                    <Text style={styles.infoTexto}>{item.tower}{item.floor}{item.classroom}</Text>
                 </View>
 
                 <View style={styles.infoRow}>

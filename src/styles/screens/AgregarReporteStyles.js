@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     body: {
-        paddingBottom: 30,
+        paddingBottom: 40,
     },
     // formulario
     formulario: {
