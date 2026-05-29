@@ -1,7 +1,8 @@
 import { Text, View, Image, TextInput, Pressable, TouchableOpacity, Alert } from 'react-native';
 import React, { useState } from 'react';
-import appFirebase from '../config/Firebase.js';
+import appFirebase, { db } from '../config/Firebase.js';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import AuthHeader from '../components/AuthHeader.js';
 import { styles } from '../styles/screens/RegistroStyles';
 
@@ -15,12 +16,17 @@ export default function Registro(props) {
     const [password2, setPassword2] = useState('');
 
     const registrar = async () => {
+        if (!nombre.trim() || !apellido.trim()) {
+            Alert.alert('Error', 'Por favor ingresa tus nombres y apellidos');
+            return;
+        }
+        
         if (password !== password2) {
-            Alert.alert('Error', 'Las contraseñas no coinciden');
+            Alert.alert('Error', 'Las contraseas no coinciden');
             return;
         }
         if (!email.trim() || !password.trim()) {
-            Alert.alert('Error', 'Ingresa un email y contraseña para registrarte');
+            Alert.alert('Error', 'Ingresa un email y contrasea para registrarte');
             return;
         }
 
@@ -30,7 +36,16 @@ export default function Registro(props) {
         }
 
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            await setDoc(doc(db, "usuarios", user.uid), {
+                nombre: nombre.trim(),
+                apellido: apellido.trim(),
+                email: email.trim().toLowerCase(),
+                fechaRegistro: serverTimestamp()
+            });
+
             Alert.alert('Bienvenido(a)', 'Bienvenido a UTPreport');
             props.navigation.navigate('Login');
 
@@ -59,7 +74,6 @@ export default function Registro(props) {
                 <TextInput placeholder="Ingrese su contraseña" style={styles.input} secureTextEntry={true} onChangeText={(text) => setPassword(text)} />
                 <TextInput placeholder="Confirme su contraseña" style={styles.input} secureTextEntry={true} onChangeText={(text) => setPassword2(text)} />
                 
-
                 <Pressable onPress={registrar}
                     style={({ pressed }) => [styles.boton, {
                         transform: [{ scale: pressed ? 0.85 : 1 }],
@@ -77,4 +91,3 @@ export default function Registro(props) {
         </View>
     );
 }
-

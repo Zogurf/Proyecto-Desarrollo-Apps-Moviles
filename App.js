@@ -3,12 +3,26 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Home from './src/screens/Home';
 import Login from './src/screens/Login';
 import AgregarReporte from './src/screens/AgregarReporte';
 import Registro from './src/screens/Registro';
+import Profile from './src/screens/Profile';
+
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function MainTabs() {
+  return (
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
+      <Tab.Screen name="Inicio" component={Home} />
+      <Tab.Screen name="Perfil" component={Profile} />
+    </Tab.Navigator>
+  );
+}
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -31,8 +45,6 @@ export default function App() {
     }
   };
 
-  const Stack = createStackNavigator();
-
   if (isLoading) {
     return (
       <View style={styles.loaderContainer}>
@@ -44,8 +56,8 @@ export default function App() {
   function MyStack() {
     return (
       <Stack.Navigator initialRouteName={initialRoute}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="Home" component={MainTabs} options={{ headerShown: false }} />
         <Stack.Screen name="AgregarReporte" component={AgregarReporte} />
         <Stack.Screen name="Registro" component={Registro} />
       </Stack.Navigator>

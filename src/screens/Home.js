@@ -22,15 +22,13 @@ export default function Home(props) {
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
                 
-                // Formatear la fecha para que se vea bien en la app si existe el timestamp
                 let fechaFormateada = '';
                 if (data.fecha) {
                     const date = data.fecha.toDate();
                     fechaFormateada = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
                 }
 
-                // Asignar colores según el status para mantener tu diseño original
-                let textColor = '#B7950B'; // Default Pendiente
+                let textColor = '#B7950B'; // pendiente
                 if (data.status === 'En Proceso') textColor = '#2E86C1';
                 if (data.status === 'Solucionado') textColor = '#1E8449';
 
@@ -95,11 +93,9 @@ export default function Home(props) {
                 />
             )}
 
-            {/* Boton agreggar */}
             <TouchableOpacity style={styles.agregar} onPress={() => props.navigation.navigate('AgregarReporte')}>
                 <Ionicons name="add" size={30} color="white" />
             </TouchableOpacity>
         </View>
     )
 }
-
