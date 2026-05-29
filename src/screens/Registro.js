@@ -43,6 +43,7 @@ export default function Registro(props) {
                 nombre: nombre.trim(),
                 apellido: apellido.trim(),
                 email: email.trim().toLowerCase(),
+                rol: 'usuario',
                 fechaRegistro: serverTimestamp()
             });
 

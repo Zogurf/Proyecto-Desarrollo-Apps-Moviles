@@ -1,7 +1,8 @@
 import { Text, View, Image, TextInput, Pressable, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
-import appFirebase from '../config/Firebase'
+import appFirebase, { db } from '../config/Firebase'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { doc, getDoc } from 'firebase/firestore'
 import AuthHeader from '../components/AuthHeader.js';
 import { styles } from '../styles/screens/LoginStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,14 +15,28 @@ export default function Login(props) {
 
     const logear = async () => {
         if (!email.trim() || !password.trim()) {
-            Alert.alert('Por favor ingresa tu email y contraseña')
+            Alert.alert('Por favor ingresa tu email y contrasea')
             return
         }
 
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
             const user = userCredential.user
+            
+            let rol = 'usuario'; // por defecto
+            try {
+                const userDocRef = doc(db, 'usuarios', user.uid);
+                const userDocSnap = await getDoc(userDocRef);
+                if (userDocSnap.exists() && userDocSnap.data().rol) {
+                    rol = userDocSnap.data().rol;
+                }
+            } catch (roleError) {
+                console.error("Error al obtener rol:", roleError);
+            }
+
             await AsyncStorage.setItem('userToken', user.uid)
+            await AsyncStorage.setItem('userRole', rol)
+            
             Alert.alert('Iniciando sesion', 'Bienvenido(a)')
             props.navigation.navigate('Home')
 

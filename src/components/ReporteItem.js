@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { styles } from '../styles/components/ReporteItemStyles';
 
-const ReporteItem = ({ item }) => {
+const ReporteItem = ({ item, onPress }) => {
     return (
-        <View style={styles.tarjeta}>
+        <TouchableOpacity style={styles.tarjeta} onPress={onPress}>
             <View style={styles.tarjetaHeader}>
                 <View style={[styles.estado]}>
                     <Text style={[styles.estadoText, { color: item.textColor }]}>{item.status}</Text>
@@ -26,7 +26,7 @@ const ReporteItem = ({ item }) => {
                     <Text style={styles.infoTexto}>{item.category}</Text>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
