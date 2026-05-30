@@ -66,14 +66,18 @@ La aplicación busca centralizar los reportes y mejorar la comunicación sobre e
 ```cmd
 git clone https://github.com/Zogurf/Proyecto-Desarrollo-Apps-Moviles.git
 ```
-1.  Instalar dependencias
+2.  Instalar dependencias
 ```cmd
 npm install
 ```
-1. Ejecutar con Expo
+3. Ejecutar con Expo
 ```cmd
 npx expo start
 ```
+
+4. Registrar Cuenta (@utp.edu.pe)
+
+5. Logearse con la nueva cuenta
 
 ## Autor
 Villalta Vitanzo, Angelo Jair 
