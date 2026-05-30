@@ -12,17 +12,22 @@ const auth = getAuth(appFirebase)
 export default function Login(props) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [errores, setErrores] = useState({});
 
     const logear = async () => {
-        if (!email.trim() || !password.trim()) {
-            Alert.alert('Por favor ingresa tu email y contrasea')
-            return
+        const nuevosErrores = {};
+        if (!email.trim()) nuevosErrores.email = "El correo es obligatorio";
+        if (!password.trim()) nuevosErrores.password = "La contraseña es obligatoria";
+
+        if (Object.keys(nuevosErrores).length > 0) {
+            setErrores(nuevosErrores);
+            return;
         }
 
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
             const user = userCredential.user
-            
+
             let rol = 'usuario'; // por defecto
             try {
                 const userDocRef = doc(db, 'usuarios', user.uid);
@@ -36,7 +41,7 @@ export default function Login(props) {
 
             await AsyncStorage.setItem('userToken', user.uid)
             await AsyncStorage.setItem('userRole', rol)
-            
+
             Alert.alert('Iniciando sesion', 'Bienvenido(a)')
             props.navigation.navigate('Home')
 
@@ -53,12 +58,14 @@ export default function Login(props) {
             <View style={styles.contenedor}>
                 <Text style={styles.titulo}>Iniciar Sesion</Text>
 
-                <TextInput placeholder="Email" style={styles.input}
-                    onChangeText={(text) => setEmail(text)} />
+                <TextInput placeholder="Email" style={[styles.input, errores.email && styles.inputError]} keyboardType="email-address"
+                    onChangeText={(text) => { setEmail(text); setErrores({ ...errores, email: null }); }} />
+                {errores.email && <Text style={styles.errorText}>{errores.email}</Text>}
 
-                <TextInput placeholder="Contraseña" style={styles.input}
+                <TextInput placeholder="Contraseña" style={[styles.input, errores.password && styles.inputError]}
                     secureTextEntry={true}
-                    onChangeText={(text) => setPassword(text)} />
+                    onChangeText={(text) => { setPassword(text); setErrores({ ...errores, password: null }); }} />
+                {errores.password && <Text style={styles.errorText}>{errores.password}</Text>}
 
                 <Pressable
                     onPress={logear}

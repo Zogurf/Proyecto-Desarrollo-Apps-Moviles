@@ -28,6 +28,18 @@ export const styles = StyleSheet.create({
         marginBottom: 20,
         padding: 10
     },
+    inputError: {
+        borderColor: 'red',
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 12,
+        marginLeft: 10,
+        alignSelf: 'flex-start',
+        paddingLeft: '10%',
+        marginTop: -15,
+        marginBottom: 10,
+    },
     boton: {
         backgroundColor: '#C8102E',
         width: '40%',

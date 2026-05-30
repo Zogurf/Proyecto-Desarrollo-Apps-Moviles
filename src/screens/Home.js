@@ -5,24 +5,20 @@ import TopBar from '../components/Topbar.js';
 import ScreenHeader from '../components/ScreenHeader';
 import ReporteItem from '../components/ReporteItem';
 import { styles } from '../styles/screens/HomeStyles';
-import { collection, onSnapshot, query, orderBy, doc, updateDoc } from 'firebase/firestore';
-import { db } from '../config/Firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { reportesService } from '../services/reportesService';
 
 export default function Home(props) {
     const [filtroActivo, setFiltroActivo] = useState('Todos');
     const [reportes, setReportes] = useState([]);
     const [cargando, setCargando] = useState(true);
     const [userRole, setUserRole] = useState('usuario');
-    
-    // Modal states
     const [modalVisible, setModalVisible] = useState(false);
     const [reporteSeleccionado, setReporteSeleccionado] = useState(null);
 
     const filtros = ['Todos', 'Pendientes', 'En Proceso', 'Solucionados'];
 
     useEffect(() => {
-        // Cargar rol del usuario
         const fetchRole = async () => {
             const role = await AsyncStorage.getItem('userRole');
             if (role) {
@@ -31,42 +27,16 @@ export default function Home(props) {
         };
         fetchRole();
 
-        // Cargar reportes
-        const q = query(collection(db, 'reportes'), orderBy('fecha', 'desc'));
-        
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const reportesArray = [];
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                
-                let fechaFormateada = '';
-                if (data.fecha) {
-                    const date = data.fecha.toDate();
-                    fechaFormateada = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-                }
-
-                let textColor = '#B7950B'; // pendiente
-                if (data.status === 'En Proceso') textColor = '#2E86C1';
-                if (data.status === 'Solucionado') textColor = '#1E8449';
-
-                reportesArray.push({
-                    id: doc.id,
-                    ...data,
-                    title: data.titulo,
-                    tower: data.torre,
-                    floor: data.piso,
-                    category: data.categoria,
-                    date: fechaFormateada || 'Sin fecha',
-                    textColor: textColor,
-                    classroom: data.ambiente
-                });
-            });
-            setReportes(reportesArray);
-            setCargando(false);
-        }, (error) => {
-            console.error("Error al obtener reportes:", error);
-            setCargando(false);
-        });
+        const unsubscribe = reportesService.suscribirseAReportes(
+            (reportesArray) => {
+                setReportes(reportesArray);
+                setCargando(false);
+            },
+            (error) => {
+                console.error("Error al obtener reportes:", error);
+                setCargando(false);
+            }
+        );
 
         return () => unsubscribe();
     }, []);
@@ -85,13 +55,10 @@ export default function Home(props) {
 
     const actualizarEstado = async (nuevoEstado) => {
         if (!reporteSeleccionado) return;
-        
+
         try {
-            const reporteRef = doc(db, 'reportes', reporteSeleccionado.id);
-            await updateDoc(reporteRef, {
-                status: nuevoEstado
-            });
-            Alert.alert('xito', `Estado actualizado a ${nuevoEstado}`);
+            await reportesService.actualizarEstadoReporte(reporteSeleccionado.id, nuevoEstado);
+            Alert.alert('Éxito', `Estado actualizado a ${nuevoEstado}`);
             setModalVisible(false);
         } catch (error) {
             console.error("Error al actualizar el estado:", error);
@@ -118,21 +85,21 @@ export default function Home(props) {
             </View>
 
             {cargando ? (
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <ActivityIndicator size="large" color="#C8102E" />
-                    <Text style={{marginTop: 10}}>Cargando reportes...</Text>
+                    <Text style={{ marginTop: 10 }}>Cargando reportes...</Text>
                 </View>
             ) : (
                 <FlatList
                     data={reportesFiltrados}
                     renderItem={({ item }) => (
-                        <ReporteItem 
-                            item={item} 
-                            onPress={() => abrirDetalles(item)} 
+                        <ReporteItem
+                            item={item}
+                            onPress={() => abrirDetalles(item)}
                         />
                     )}
                     keyExtractor={item => item.id}
-                    ListEmptyComponent={<Text style={{textAlign: 'center', marginTop: 50}}>No hay reportes para mostrar</Text>}
+                    ListEmptyComponent={<Text style={{ textAlign: 'center', marginTop: 50 }}>No hay reportes para mostrar</Text>}
                 />
             )}
 
@@ -147,9 +114,9 @@ export default function Home(props) {
                         {reporteSeleccionado && (
                             <>
                                 <Text style={styles.modalTitle}>{reporteSeleccionado.title}</Text>
-                                
+
                                 <Text style={styles.modalLabel}>Estado Actual:</Text>
-                                <Text style={[styles.modalText, {color: reporteSeleccionado.textColor, fontWeight: 'bold'}]}>
+                                <Text style={[styles.modalText, { color: reporteSeleccionado.textColor, fontWeight: 'bold' }]}>
                                     {reporteSeleccionado.status}
                                 </Text>
 
@@ -168,29 +135,29 @@ export default function Home(props) {
                                     <View style={styles.actionsContainer}>
                                         <Text style={styles.actionTitle}>Cambiar Estado (Admin):</Text>
                                         <View style={styles.statusButtonsRow}>
-                                            <TouchableOpacity 
+                                            <TouchableOpacity
                                                 style={[styles.statusBtn, styles.statusBtnPendiente]}
                                                 onPress={() => actualizarEstado('Pendiente')}>
-                                                <Text style={[styles.statusBtnText, {color: '#B7950B'}]}>Pendiente</Text>
+                                                <Text style={[styles.statusBtnText, { color: '#B7950B' }]}>Pendiente</Text>
                                             </TouchableOpacity>
-                                            
-                                            <TouchableOpacity 
+
+                                            <TouchableOpacity
                                                 style={[styles.statusBtn, styles.statusBtnProceso]}
                                                 onPress={() => actualizarEstado('En Proceso')}>
-                                                <Text style={[styles.statusBtnText, {color: '#2E86C1'}]}>En Proceso</Text>
+                                                <Text style={[styles.statusBtnText, { color: '#2E86C1' }]}>En Proceso</Text>
                                             </TouchableOpacity>
-                                            
-                                            <TouchableOpacity 
+
+                                            <TouchableOpacity
                                                 style={[styles.statusBtn, styles.statusBtnSolucionado]}
                                                 onPress={() => actualizarEstado('Solucionado')}>
-                                                <Text style={[styles.statusBtnText, {color: '#1E8449'}]}>Solucionado</Text>
+                                                <Text style={[styles.statusBtnText, { color: '#1E8449' }]}>Solucionado</Text>
                                             </TouchableOpacity>
                                         </View>
                                     </View>
                                 )}
 
-                                <TouchableOpacity 
-                                    style={styles.closeButton} 
+                                <TouchableOpacity
+                                    style={styles.closeButton}
                                     onPress={() => setModalVisible(false)}>
                                     <Text style={styles.closeButtonText}>Cerrar</Text>
                                 </TouchableOpacity>

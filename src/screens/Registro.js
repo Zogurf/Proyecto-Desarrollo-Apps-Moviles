@@ -14,24 +14,32 @@ export default function Registro(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
+    const [errores, setErrores] = useState({});
 
     const registrar = async () => {
-        if (!nombre.trim() || !apellido.trim()) {
-            Alert.alert('Error', 'Por favor ingresa tus nombres y apellidos');
-            return;
+        const nuevosErrores = {};
+
+        if (!nombre.trim()) nuevosErrores.nombre = "El nombre es obligatorio";
+        if (!apellido.trim()) nuevosErrores.apellido = "El apellido es obligatorio";
+        
+        if (!email.trim()) {
+            nuevosErrores.email = "El correo es obligatorio";
+        } else if (!email.trim().toLowerCase().endsWith('@utp.edu.pe')) {
+            nuevosErrores.email = "Por favor usa tu correo institucional (@utp.edu.pe)";
+        }
+
+        if (!password.trim()) {
+            nuevosErrores.password = "La contraseña es obligatoria";
+        } else if (password.length < 6) {
+            nuevosErrores.password = "La contraseña debe tener al menos 6 caracteres";
         }
         
         if (password !== password2) {
-            Alert.alert('Error', 'Las contraseas no coinciden');
-            return;
-        }
-        if (!email.trim() || !password.trim()) {
-            Alert.alert('Error', 'Ingresa un email y contrasea para registrarte');
-            return;
+            nuevosErrores.password2 = "Las contraseñas no coinciden";
         }
 
-        if (!email.trim().toLowerCase().endsWith('@utp.edu.pe')) {
-            Alert.alert('Error', 'Por favor usa el correo institucional para registrarte');
+        if (Object.keys(nuevosErrores).length > 0) {
+            setErrores(nuevosErrores);
             return;
         }
 
@@ -69,11 +77,20 @@ export default function Registro(props) {
             <View style={styles.contenedor}>
                 <Text style={styles.titulo}>Crear Cuenta</Text>
 
-                <TextInput placeholder="Ingrese sus nombres" style={styles.input} onChangeText={(text) => setNombre(text)} />
-                <TextInput placeholder="Ingrese sus apellidos" style={styles.input} onChangeText={(text) => setApellido(text)} />
-                <TextInput placeholder="Ingrese su email UTP" style={styles.input} onChangeText={(text) => setEmail(text)} />
-                <TextInput placeholder="Ingrese su contraseña" style={styles.input} secureTextEntry={true} onChangeText={(text) => setPassword(text)} />
-                <TextInput placeholder="Confirme su contraseña" style={styles.input} secureTextEntry={true} onChangeText={(text) => setPassword2(text)} />
+                <TextInput placeholder="Ingrese sus nombres" style={[styles.input, errores.nombre && styles.inputError]} onChangeText={(text) => {setNombre(text); setErrores({...errores, nombre: null});}} />
+                {errores.nombre && <Text style={styles.errorText}>{errores.nombre}</Text>}
+
+                <TextInput placeholder="Ingrese sus apellidos" style={[styles.input, errores.apellido && styles.inputError]} onChangeText={(text) => {setApellido(text); setErrores({...errores, apellido: null});}} />
+                {errores.apellido && <Text style={styles.errorText}>{errores.apellido}</Text>}
+
+                <TextInput placeholder="Ingrese su email UTP" style={[styles.input, errores.email && styles.inputError]} autoCapitalize="none" keyboardType="email-address" onChangeText={(text) => {setEmail(text); setErrores({...errores, email: null});}} />
+                {errores.email && <Text style={styles.errorText}>{errores.email}</Text>}
+
+                <TextInput placeholder="Ingrese su contraseña" style={[styles.input, errores.password && styles.inputError]} secureTextEntry={true} onChangeText={(text) => {setPassword(text); setErrores({...errores, password: null});}} />
+                {errores.password && <Text style={styles.errorText}>{errores.password}</Text>}
+
+                <TextInput placeholder="Confirme su contraseña" style={[styles.input, errores.password2 && styles.inputError]} secureTextEntry={true} onChangeText={(text) => {setPassword2(text); setErrores({...errores, password2: null});}} />
+                {errores.password2 && <Text style={styles.errorText}>{errores.password2}</Text>}
                 
                 <Pressable onPress={registrar}
                     style={({ pressed }) => [styles.boton, {

@@ -27,6 +27,16 @@ export const styles = StyleSheet.create({
         marginBottom: 25,
         padding: 10,
     },
+    inputError: {
+        borderColor: 'red',
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 12,
+        marginLeft: 25,
+        marginTop: -20,
+        marginBottom: 10,
+    },
     boton: {
         backgroundColor: '#C8102E',
         width: '75%',
