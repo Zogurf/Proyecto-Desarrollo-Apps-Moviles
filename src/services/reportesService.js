@@ -29,7 +29,8 @@ export const reportesService = {
                     category: data.categoria,
                     date: fechaFormateada || 'Sin fecha',
                     textColor: textColor,
-                    classroom: data.ambiente
+                    classroom: data.ambiente,
+                    imagenUrl: data.imagenUrl || null
                 });
             });
             onSuccess(reportesArray);
@@ -47,9 +48,11 @@ export const reportesService = {
         });
     },
 
-    crearReporte: async (datosReporte, userId) => {
+    crearReporte: async (datosReporte, userId, img) => {
         const reportesRef = collection(db, 'reportes');
+
         await addDoc(reportesRef, {
+            imagenUrl: img || null,
             ...datosReporte,
             status: 'Pendiente',
             usuarioId: userId,

@@ -25,6 +25,13 @@ const ReporteItem = ({ item, onPress }) => {
                     <MaterialCommunityIcons name="wrench-outline" size={16} />
                     <Text style={styles.infoTexto}>{item.category}</Text>
                 </View>
+
+                {item.imagenUrl && (
+                    <View style={styles.infoRow}>
+                        <MaterialCommunityIcons name="camera-outline" size={16} color="#555" />
+                        <Text style={[styles.infoTexto, { color: '#555', marginLeft: 2 }]}>Foto</Text>
+                    </View>
+                )}
             </View>
         </TouchableOpacity>
     );

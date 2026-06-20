@@ -130,7 +130,22 @@ export default function Home(props) {
 
                                 <Text style={styles.modalLabel}>Descripcion:</Text>
                                 <Text style={styles.modalDesc}>{reporteSeleccionado.descripcion || 'Sin descripcion'}</Text>
-
+                                {reporteSeleccionado.imagenUrl && (
+                                    <View style={{ marginTop: 15, alignItems: 'center' }}>
+                                        <Text style={[styles.modalLabel, { alignSelf: 'flex-start' }]}>Evidencia Fotográfica:</Text>
+                                        <Image
+                                            source={{ uri: reporteSeleccionado.imagenUrl }}
+                                            style={{
+                                                width: '100%',
+                                                height: 200,
+                                                borderRadius: 10,
+                                                marginTop: 5,
+                                                backgroundColor: '#e1e1e1'
+                                            }}
+                                            resizeMode="cover"
+                                        />
+                                    </View>
+                                )}
                                 {userRole === 'admin' && (
                                     <View style={styles.actionsContainer}>
                                         <Text style={styles.actionTitle}>Cambiar Estado (Admin):</Text>

@@ -7,6 +7,8 @@ import ScreenHeader from '../components/ScreenHeader';
 import { styles } from '../styles/screens/AgregarReporteStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { reportesService } from '../services/reportesService';
+import * as FileSystem from 'expo-file-system';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function AgregarReporte(props) {
     const [titulo, setTitulo] = useState('');
@@ -15,6 +17,7 @@ export default function AgregarReporte(props) {
     const [piso, setPiso] = useState(null);
     const [descripcion, setDescripcion] = useState('');
     const [errores, setErrores] = useState({});
+    const [imagen, setImagen] = useState(null);
 
     const torres = [
         { label: 'Torre A', value: 'A' },
@@ -32,6 +35,27 @@ export default function AgregarReporte(props) {
         { label: 'Servicios', value: 'servicios' }
     ];
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
+
+    const tomarFoto = async () => {
+        const permisos = await ImagePicker.requestCameraPermissionsAsync();
+        if (permisos.granted === false) {
+            Alert.alert("Permisos", "Se requiere acceso a la cámara.");
+            return;
+        }
+
+        const resultado = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 0.6,
+        });
+
+        if (!resultado.canceled) {
+            const uriTemporal = resultado.assets[0].uri;
+
+            setImagen(uriTemporal);
+            console.log("¡Foto lista!", uriTemporal);
+        }
+    };
 
     const guardarReporte = async () => {
         const nuevosErrores = {};
@@ -57,7 +81,7 @@ export default function AgregarReporte(props) {
                 ambiente,
                 categoria: categoriaSeleccionada,
                 descripcion
-            }, userId);
+            }, userId, imagen);
 
             Alert.alert("Exito", "Reporte creado correctamente");
             props.navigation.navigate('Home');
@@ -131,7 +155,31 @@ export default function AgregarReporte(props) {
                 {errores.descripcion && <Text style={styles.errorText}>{errores.descripcion}</Text>}
 
                 <Text style={styles.label}>Agrega una imagen (si es necesario) </Text>
-                <TextInput style={styles.input} placeholder="png, jpg, camara" readOnly />
+                <Pressable
+                    onPress={tomarFoto}
+                    style={[styles.input, { justifyContent: 'center', alignItems: 'center', backgroundColor: '#f9f9f9', height: 60 }]}
+                >
+                    <MaterialCommunityIcons name="camera" size={24} color="#666" />
+                    <Text style={{ color: '#666', marginTop: 4 }}>
+                        {imagen ? "Cambiar foto" : "Tomar foto con la cámara"}
+                    </Text>
+                </Pressable>
+
+                {imagen ? (
+                    <View style={{ alignItems: 'center', marginVertical: 15 }}>
+                        <Text style={{ marginBottom: 5, color: '#666' }}>Vista previa:</Text>
+                        <Image
+                            source={{ uri: imagen }}
+                            style={{
+                                width: 200,
+                                height: 200,
+                                borderRadius: 10,
+                                backgroundColor: '#e1e1e1'
+                            }}
+                            resizeMode="cover"
+                        />
+                    </View>
+                ) : null}
 
                 <Pressable onPress={guardarReporte} style={({ pressed }) => [styles.boton, {
                     transform: [{ scale: pressed ? 0.85 : 1 }],
