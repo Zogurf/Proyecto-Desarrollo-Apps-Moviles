@@ -12,6 +12,7 @@ import Login from './src/screens/Login';
 import AgregarReporte from './src/screens/AgregarReporte';
 import Registro from './src/screens/Registro';
 import Profile from './src/screens/Profile';
+import NotificationBanner from './src/components/NotificationBanner';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -84,7 +85,8 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <MyStack/>
+      <NotificationBanner />
+      <MyStack />
     </NavigationContainer>
   );
 }

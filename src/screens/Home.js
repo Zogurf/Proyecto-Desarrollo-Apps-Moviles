@@ -1,5 +1,5 @@
 import { Text, View, FlatList, Image, TouchableOpacity, ActivityIndicator, Modal, Alert } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import TopBar from '../components/Topbar.js';
 import ScreenHeader from '../components/ScreenHeader';
@@ -7,6 +7,7 @@ import ReporteItem from '../components/ReporteItem';
 import { styles } from '../styles/screens/HomeStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { reportesService } from '../services/reportesService';
+import { notificacionService } from '../services/NotificacionService';
 
 export default function Home(props) {
     const [filtroActivo, setFiltroActivo] = useState('Todos');
@@ -17,28 +18,52 @@ export default function Home(props) {
     const [reporteSeleccionado, setReporteSeleccionado] = useState(null);
 
     const filtros = ['Todos', 'Pendientes', 'En Proceso', 'Solucionados'];
+    const unsubscribeRef = useRef(null);
 
     useEffect(() => {
-        const fetchRole = async () => {
+        const cargarUserId = async () => {
             const role = await AsyncStorage.getItem('userRole');
             if (role) {
                 setUserRole(role);
             }
+            return await AsyncStorage.getItem('userToken');
         };
-        fetchRole();
 
-        const unsubscribe = reportesService.suscribirseAReportes(
-            (reportesArray) => {
-                setReportes(reportesArray);
-                setCargando(false);
-            },
-            (error) => {
-                console.error("Error al obtener reportes:", error);
-                setCargando(false);
+        const setup = async () => {
+            const userId = await cargarUserId();
+
+            await notificacionService.inicializar();
+
+            unsubscribeRef.current = reportesService.suscribirseAReportes(
+                (reportesArray) => {
+                    setReportes(reportesArray);
+                    setCargando(false);
+                },
+                (error) => {
+                    console.error("Error al obtener reportes:", error);
+                    setCargando(false);
+                },
+                async (cambios) => {
+                    for (const cambio of cambios) {
+                        if (cambio.usuarioId === userId) {
+                            await notificacionService.mostrarNotificacion({
+                                title: 'Estado actualizado',
+                                body: `Tu reporte "${cambio.titulo}" cambió a ${cambio.newStatus}`,
+                            });
+                        }
+                    }
+                }
+            );
+        };
+
+        setup();
+
+        return () => {
+            if (unsubscribeRef.current) {
+                unsubscribeRef.current();
+                unsubscribeRef.current = null;
             }
-        );
-
-        return () => unsubscribe();
+        };
     }, []);
 
     const reportesFiltrados = reportes.filter(reporte => {

@@ -2,11 +2,26 @@ import { collection, onSnapshot, query, orderBy, doc, updateDoc, addDoc, serverT
 import { db } from '../config/Firebase';
 
 export const reportesService = {
-    suscribirseAReportes: (onSuccess, onError) => {
+    suscribirseAReportes: (onSuccess, onError, onStatusChange) => {
         const q = query(collection(db, 'reportes'), orderBy('fecha', 'desc'));
+        let esPrimeraCarga = true;
 
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const reportesArray = [];
+            const cambios = [];
+
+            querySnapshot.docChanges().forEach((change) => {
+                if (change.type === 'modified') {
+                    const data = change.doc.data();
+                    cambios.push({
+                        id: change.doc.id,
+                        usuarioId: data.usuarioId,
+                        titulo: data.titulo,
+                        newStatus: data.status,
+                    });
+                }
+            });
+
             querySnapshot.forEach((docSnapshot) => {
                 const data = docSnapshot.data();
 
@@ -33,7 +48,13 @@ export const reportesService = {
                     imagenUrl: data.imagenUrl || null
                 });
             });
+
             onSuccess(reportesArray);
+
+            if (!esPrimeraCarga && cambios.length > 0) {
+                onStatusChange?.(cambios);
+            }
+            esPrimeraCarga = false;
         }, (error) => {
             onError(error);
         });
