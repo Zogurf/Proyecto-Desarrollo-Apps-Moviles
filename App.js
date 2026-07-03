@@ -13,6 +13,7 @@ import AgregarReporte from './src/screens/AgregarReporte';
 import Registro from './src/screens/Registro';
 import Profile from './src/screens/Profile';
 import NotificationBanner from './src/components/NotificationBanner';
+import Notificaciones from './src/screens/Notificaciones';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,6 +30,8 @@ function MainTabs() {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Perfil') {
             iconName = focused ? 'account' : 'account-outline';
+          } else if (route.name === 'Notificaciones') {
+            iconName = focused ? 'bell' : 'bell-outline';
           }
 
           return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
@@ -38,6 +41,7 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Inicio" component={Home} />
+      <Tab.Screen name="Notificaciones" component={Notificaciones} />
       <Tab.Screen name="Perfil" component={Profile} />
     </Tab.Navigator>
   );

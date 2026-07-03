@@ -1,4 +1,4 @@
-import { Text, View, FlatList, Image, TouchableOpacity, ActivityIndicator, Modal, Alert } from 'react-native'
+import { Text, View, FlatList, Image, TouchableOpacity, ActivityIndicator, Modal, Alert, ScrollView } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import TopBar from '../components/Topbar.js';
@@ -135,83 +135,90 @@ export default function Home(props) {
                 onRequestClose={() => setModalVisible(false)}
             >
                 <View style={styles.modalOverlay}>
-                    <View style={styles.modalContent}>
-                        {reporteSeleccionado && (
-                            <>
-                                <Text style={styles.modalTitle}>{reporteSeleccionado.title}</Text>
+                    <View style={[styles.modalContent, { maxHeight: '80%', width: '90%' }]}>
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}
+                            contentContainerStyle={{ paddingBottom: 15 }}
+                        >
+                            {reporteSeleccionado && (
+                                <>
+                                    <Text style={styles.modalTitle}>{reporteSeleccionado.title}</Text>
 
-                                <Text style={styles.modalLabel}>Estado Actual:</Text>
-                                <Text style={[styles.modalText, { color: reporteSeleccionado.textColor, fontWeight: 'bold' }]}>
-                                    {reporteSeleccionado.status}
-                                </Text>
+                                    <Text style={styles.modalLabel}>Estado Actual:</Text>
+                                    <Text style={[styles.modalText, { color: reporteSeleccionado.textColor, fontWeight: 'bold' }]}>
+                                        {reporteSeleccionado.status}
+                                    </Text>
 
-                                <Text style={styles.modalLabel}>Ubicacion:</Text>
-                                <Text style={styles.modalText}>
-                                    Torre {reporteSeleccionado.tower}, Piso {reporteSeleccionado.floor}, Ambiente {reporteSeleccionado.classroom}
-                                </Text>
+                                    <Text style={styles.modalLabel}>Ubicacion:</Text>
+                                    <Text style={styles.modalText}>
+                                        Torre {reporteSeleccionado.tower}, Piso {reporteSeleccionado.floor}, Ambiente {reporteSeleccionado.classroom}
+                                    </Text>
 
-                                <Text style={styles.modalLabel}>Catedoria:</Text>
-                                <Text style={styles.modalText}>{reporteSeleccionado.category}</Text>
+                                    <Text style={styles.modalLabel}>Catedoria:</Text>
+                                    <Text style={styles.modalText}>{reporteSeleccionado.category}</Text>
 
-                                <Text style={styles.modalLabel}>Descripcion:</Text>
-                                <Text style={styles.modalDesc}>{reporteSeleccionado.descripcion || 'Sin descripcion'}</Text>
-                                {reporteSeleccionado.imagenUrl && (
-                                    <View style={{ marginTop: 15, alignItems: 'center' }}>
-                                        <Text style={[styles.modalLabel, { alignSelf: 'flex-start' }]}>Evidencia Fotográfica:</Text>
-                                        <Image
-                                            source={{ uri: reporteSeleccionado.imagenUrl }}
-                                            style={{
-                                                width: '100%',
-                                                height: 200,
-                                                borderRadius: 10,
-                                                marginTop: 5,
-                                                backgroundColor: '#e1e1e1'
-                                            }}
-                                            resizeMode="cover"
-                                        />
-                                    </View>
-                                )}
-                                {userRole === 'admin' && (
-                                    <View style={styles.actionsContainer}>
-                                        <Text style={styles.actionTitle}>Cambiar Estado (Admin):</Text>
-                                        <View style={styles.statusButtonsRow}>
-                                            <TouchableOpacity
-                                                style={[styles.statusBtn, styles.statusBtnPendiente]}
-                                                onPress={() => actualizarEstado('Pendiente')}>
-                                                <Text style={[styles.statusBtnText, { color: '#B7950B' }]}>Pendiente</Text>
-                                            </TouchableOpacity>
-
-                                            <TouchableOpacity
-                                                style={[styles.statusBtn, styles.statusBtnProceso]}
-                                                onPress={() => actualizarEstado('En Proceso')}>
-                                                <Text style={[styles.statusBtnText, { color: '#2E86C1' }]}>En Proceso</Text>
-                                            </TouchableOpacity>
-
-                                            <TouchableOpacity
-                                                style={[styles.statusBtn, styles.statusBtnSolucionado]}
-                                                onPress={() => actualizarEstado('Solucionado')}>
-                                                <Text style={[styles.statusBtnText, { color: '#1E8449' }]}>Solucionado</Text>
-                                            </TouchableOpacity>
+                                    <Text style={styles.modalLabel}>Descripcion:</Text>
+                                    <Text style={styles.modalDesc}>{reporteSeleccionado.descripcion || 'Sin descripcion'}</Text>
+                                    {reporteSeleccionado.imagenUrl && (
+                                        <View style={{ marginTop: 15, alignItems: 'center' }}>
+                                            <Text style={[styles.modalLabel, { alignSelf: 'flex-start' }]}>Evidencia Fotográfica:</Text>
+                                            <Image
+                                                source={{ uri: reporteSeleccionado.imagenUrl }}
+                                                style={{
+                                                    width: '100%',
+                                                    height: 200,
+                                                    borderRadius: 10,
+                                                    marginTop: 5,
+                                                    backgroundColor: '#e1e1e1'
+                                                }}
+                                                resizeMode="cover"
+                                            />
                                         </View>
-                                    </View>
-                                )}
+                                    )}
+                                    {userRole === 'admin' && (
+                                        <View style={styles.actionsContainer}>
+                                            <Text style={styles.actionTitle}>Cambiar Estado (Admin):</Text>
+                                            <View style={styles.statusButtonsRow}>
+                                                <TouchableOpacity
+                                                    style={[styles.statusBtn, styles.statusBtnPendiente]}
+                                                    onPress={() => actualizarEstado('Pendiente')}>
+                                                    <Text style={[styles.statusBtnText, { color: '#B7950B' }]}>Pendiente</Text>
+                                                </TouchableOpacity>
 
-                                <TouchableOpacity
-                                    style={styles.closeButton}
-                                    onPress={() => setModalVisible(false)}>
-                                    <Text style={styles.closeButtonText}>Cerrar</Text>
-                                </TouchableOpacity>
-                            </>
-                        )}
+                                                <TouchableOpacity
+                                                    style={[styles.statusBtn, styles.statusBtnProceso]}
+                                                    onPress={() => actualizarEstado('En Proceso')}>
+                                                    <Text style={[styles.statusBtnText, { color: '#2E86C1' }]}>En Proceso</Text>
+                                                </TouchableOpacity>
+
+                                                <TouchableOpacity
+                                                    style={[styles.statusBtn, styles.statusBtnSolucionado]}
+                                                    onPress={() => actualizarEstado('Solucionado')}>
+                                                    <Text style={[styles.statusBtnText, { color: '#1E8449' }]}>Solucionado</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    )}
+                                </>
+                            )}
+                        </ScrollView>
+
+                        <TouchableOpacity
+                            style={styles.closeButton}
+                            onPress={() => setModalVisible(false)}>
+                            <Text style={styles.closeButtonText}>Cerrar</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
-            </Modal>
+            </Modal >
 
-            {userRole === 'usuario' && (
-                <TouchableOpacity style={styles.agregar} onPress={() => props.navigation.navigate('AgregarReporte')}>
-                    <Ionicons name="add" size={30} color="white" />
-                </TouchableOpacity>
-            )}
-        </View>
+            {
+                userRole === 'usuario' && (
+                    <TouchableOpacity style={styles.agregar} onPress={() => props.navigation.navigate('AgregarReporte')}>
+                        <Ionicons name="add" size={30} color="white" />
+                    </TouchableOpacity>
+                )
+            }
+        </View >
     )
 }

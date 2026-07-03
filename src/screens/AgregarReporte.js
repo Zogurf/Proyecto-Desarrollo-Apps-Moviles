@@ -1,4 +1,4 @@
-import { Text, View, Image, TextInput, Alert, Pressable, ScrollView } from 'react-native'
+import { Text, View, Image, TextInput, Alert, Linking, Pressable, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -39,7 +39,21 @@ export default function AgregarReporte(props) {
     const tomarFoto = async () => {
         const permisos = await ImagePicker.requestCameraPermissionsAsync();
         if (permisos.granted === false) {
-            Alert.alert("Permisos", "Se requiere acceso a la cámara.");
+            if (!permisos.canAskAgain) {
+                Alert.alert(
+                    "Permiso requerido",
+                    "Se requiere acceso a la cámara para adjuntar evidencia. Por favor actívalo en la configuración de tu teléfono.",
+                    [
+                        { text: "Cancelar", style: "cancel" },
+                        {
+                            text: "Ir a Configuración",
+                            onPress: () => Linking.openSettings()
+                        }
+                    ]
+                );
+            } else {
+                Alert.alert("Permisos", "Se requiere acceso a la cámara.");
+            }
             return;
         }
 
