@@ -10,12 +10,41 @@ La aplicación busca centralizar los reportes y mejorar la comunicación sobre e
 
 ## Funcionalidades principales
 
-- **Autenticación**: Registro e inicio de sesión con `Firebase` Authentication (Validación de correo @utp.edu.pe)
-- **Gestión de Reportes**: Consumo de API de `Firebase` para obtener y renderizar la lista de incidencias en formato de tarjetas
-- **Experiencia de usuarios**: Implementación de indicadores de carga y mensajes de error o estados vacíos al procesar peticiones
-- **Persistencia Local**: Uso de `AsyncStorage` para guardar información de la sesión del usuario en el dispositivo
-- **Filtrado de datos**: Filtros por estado: Todos, Pendientes, En Proceso y Solucionados
-- **Creación de incidencias**: Pantalla para agregar nuevos reportes con datos de la incidencia
+- **Autenticación**: Registro e inicio de sesión con `Firebase`, validando correos institucionales `@utp.edu.pe`.
+- **Persistencia de sesión**: Uso de `AsyncStorage` para guardar el token y el rol del usuario en el dispositivo.
+- **Navegación por módulos**: Acceso a las pantallas de Inicio, Notificaciones y Perfil mediante navegación con pestañas.
+- **Gestión de reportes**: Suscripción en tiempo real a los reportes almacenados en `Firestore` y renderizado en formato de tarjetas.
+- **Filtrado de datos**: Filtros por estado: Todos, Pendientes, En Proceso y Solucionados.
+- **Detalle de incidencias**: Visualización de ubicación, categoría, descripción e imagen de evidencia desde un modal.
+- **Creación de incidencias**: Pantalla para agregar nuevos reportes con datos de la incidencia y evidencia fotográfica.
+- **Cambio de estado**: Actualización del estado de los reportes por parte del usuario administrador.
+- **Notificaciones**: Alerta dentro de la app y historial local de notificaciones cuando un reporte cambia de estado.
+- **Perfil de usuario**: Visualización de datos básicos de la cuenta y cierre de sesión.
+
+## Flujo de uso
+
+1. El usuario se registra con su correo institucional `@utp.edu.pe`.
+2. Luego inicia sesión con sus credenciales y la app guarda su token y rol.
+3. Desde Inicio puede ver, filtrar y revisar el detalle de sus reportes.
+4. Si su rol es `usuario`, puede crear nuevas incidencias desde el botón flotante.
+5. Si su rol es `admin`, puede cambiar el estado de los reportes desde el detalle.
+6. Las actualizaciones generan notificaciones y se guardan en el historial local.
+
+## Roles y permisos
+
+- **usuario**: puede consultar reportes y crear nuevas incidencias.
+- **admin**: puede consultar reportes y actualizar su estado a Pendiente, En Proceso o Solucionado.
+
+## Notificaciones
+
+- La app muestra una notificación cuando cambia el estado de un reporte asociado al usuario.
+- El historial de notificaciones se almacena localmente en `AsyncStorage`.
+- La pantalla de Notificaciones permite revisar y limpiar ese historial.
+
+## Permisos requeridos
+
+- Acceso a cámara para tomar evidencia fotográfica al crear un reporte.
+- Conexión a internet para autenticar usuarios y sincronizar datos con `Firebase`.
 
 ## Tecnologias usadas
 
@@ -26,9 +55,12 @@ La aplicación busca centralizar los reportes y mejorar la comunicación sobre e
 - Ionicons & MaterialCommunityIcons
 - React Hooks: `useState`, `useEffect`
 - AsyncStorage: Persistencia de datos locales
+- Expo Image Picker: Captura de evidencia fotográfica
+- Expo Notifications: Gestión de alertas locales
 
 ### Backend
-- Firebase
+- Firebase Authentication
+- Firestore
 - Javascript
 
 ## Estructura de Carpetas
@@ -39,6 +71,7 @@ La aplicación busca centralizar los reportes y mejorar la comunicación sobre e
 │   │   └── logo.png
 │   ├── components/            # Componentes reutilizables de la interfaz
 │   │   ├── AuthHeader.js
+│   │   ├── NotificationBanner.js
 │   │   ├── ReporteItem.js
 │   │   ├── ScreenHeader.js
 │   │   └── Topbar.js
@@ -48,9 +81,11 @@ La aplicación busca centralizar los reportes y mejorar la comunicación sobre e
 │   │   ├── AgregarReporte.js
 │   │   ├── Home.js
 │   │   ├── Login.js
+│   │   ├── Notificaciones.js
 │   │   ├── Profile.js         
 │   │   └── Registro.js
 │   ├── services/              # Consumo de APIs
+│   │   ├── NotificacionService.js
 │   │   └── reportesService.js
 │   └── styles/                # Estilos separados para mantener el código limpio
 │       ├── components/
@@ -78,6 +113,9 @@ npx expo start
 4. Registrar Cuenta (@utp.edu.pe)
 
 5. Logearse con la nueva cuenta
+
+6. Si vas a agregar evidencias fotográficas, concede el permiso de cámara cuando la app lo solicite
+
 
 ## Autor
 Villalta Vitanzo, Angelo Jair 
