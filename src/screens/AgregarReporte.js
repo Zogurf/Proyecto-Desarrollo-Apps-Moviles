@@ -71,6 +71,25 @@ export default function AgregarReporte(props) {
         }
     };
 
+    const elegirDeGaleria = async () => {
+        const permisos = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (permisos.granted === false) {
+            Alert.alert("Permiso requerido", "Se requiere acceso a la galeria.");
+            return;
+        }
+
+        const resultado = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 0.6,
+        });
+
+        if (!resultado.canceled) {
+            setImagen(resultado.assets[0].uri);
+        }
+    };
+
     const guardarReporte = async () => {
         const nuevosErrores = {};
         if (!titulo.trim()) nuevosErrores.titulo = "El título es obligatorio";
@@ -176,6 +195,16 @@ export default function AgregarReporte(props) {
                     <MaterialCommunityIcons name="camera" size={24} color="#666" />
                     <Text style={{ color: '#666', marginTop: 4 }}>
                         {imagen ? "Cambiar foto" : "Tomar foto con la cámara"}
+                    </Text>
+                </Pressable>
+
+                <Pressable
+                    onPress={elegirDeGaleria}
+                    style={[styles.input, { flex: 0.48, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f9f9f9', height: 75 }]}
+                >
+                    <MaterialCommunityIcons name="image" size={26} color="#666" />
+                    <Text style={{ color: '#666', marginTop: 4, textAlign: 'center', fontSize: 13 }}>
+                        {imagen ? "Cambiar galería" : "Galería"}
                     </Text>
                 </Pressable>
 

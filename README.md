@@ -45,6 +45,7 @@ La aplicación busca centralizar los reportes y mejorar la comunicación sobre e
 
 - Acceso a cámara para tomar evidencia fotográfica al crear un reporte.
 - Conexión a internet para autenticar usuarios y sincronizar datos con `Firebase`.
+- Permisos para instalar el APK
 
 ## Tecnologias usadas
 
@@ -95,6 +96,8 @@ La aplicación busca centralizar los reportes y mejorar la comunicación sobre e
 
 ## Instalacion y Uso
 
+### Ver el codigo fuente y ejecutar desde PC:
+
 **Requisitos**: `Node.js` & `npm`
 
 1.  Clonar proyecto
@@ -110,12 +113,17 @@ npm install
 npx expo start
 ```
 
-4. Registrar Cuenta (@utp.edu.pe)
+### Descargar el apk para android:
+[Click aqui](https://expo.dev/accounts/zogf/projects/Proyecto/builds/c24a6a04-fe12-4ad5-b761-5bd559d412b9)
 
-5. Logearse con la nueva cuenta
+**Siguiente**
+1. Registrar Cuenta (@utp.edu.pe)
 
-6. Si vas a agregar evidencias fotográficas, concede el permiso de cámara cuando la app lo solicite
+2. Logearse con la nueva cuenta
 
+3. Si vas a agregar evidencias fotográficas, concede el permiso de cámara cuando la app lo solicite
+
+4. Disfruta la App
 
 ## Autor
 Villalta Vitanzo, Angelo Jair 
